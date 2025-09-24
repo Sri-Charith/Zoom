@@ -384,6 +384,7 @@ export default function VideoMeetComponent() {
 
     let handleVideo = () => {
         setVideo(!video);
+        console.log("VIDEO showing ", video );
         // getUserMedia();
     }
     let handleAudio = () => {

@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
                 username: username,
                 password: password
             })
+            console.log("in auth context",request.data);
 
 
             if (request.status === httpStatus.CREATED) {

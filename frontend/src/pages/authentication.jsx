@@ -49,6 +49,7 @@ export default function Authentication() {
 
             }
             if (formState === 1) {
+                console.log("in signup page",name, username, password);
                 let result = await handleRegister(name, username, password);
                 console.log(result);
                 setUsername("");

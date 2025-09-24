@@ -38,13 +38,22 @@ const login = async (req, res) => {
 
 
 const register = async (req, res) => {
+    // 1. Log the incoming data
+    console.log("--> Received request to register user. Body:", req.body);
     const { name, username, password } = req.body;
 
+    // A small check to make sure you're getting the data
+    if (!name || !username || !password) {
+        console.log("Validation Failed: A required field is missing.");
+        return res.status(400).json({ message: "Name, username, and password are required." });
+    }
 
     try {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(httpStatus.FOUND).json({ message: "User already exists" });
+            console.log("User already exists:", username);
+            // Use a 409 Conflict status code for existing users
+            return res.status(409).json({ message: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,14 +64,23 @@ const register = async (req, res) => {
             password: hashedPassword
         });
 
+        // 2. Log the user object before saving
+        console.log("Attempting to save new user:", newUser);
+
         await newUser.save();
 
-        res.status(httpStatus.CREATED).json({ message: "User Registered" })
+        // 3. Log on success
+        console.log("✅ SUCCESS: User registered successfully!", newUser.username);
+
+        res.status(201).json({ message: "User Registered" }); // Use 201 for created
 
     } catch (e) {
-        res.json({ message: `Something went wrong ${e}` })
-    }
+        // 4. THIS IS THE MOST IMPORTANT PART!
+        console.error("❌ ERROR DURING REGISTRATION:", e);
 
+        // Send a proper server error status code
+        res.status(500).json({ message: "Something went wrong on the server." });
+    }
 }
 
 
