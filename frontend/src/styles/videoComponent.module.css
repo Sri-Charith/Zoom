@@ -1,61 +1,191 @@
+/* ===============================
+   Zoom-like Video Meeting Styles
+   =============================== */
+
+/* Main container */
 .meetVideoContainer {
-    position: relative;
-    height: 100vh;
-    background: rgb(1, 4, 48);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #0a0f1c; /* Dark mode */
+  color: white;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-.meetUserVideo {
-    position: absolute;
-    bottom: 10vh;
-    height: 20vh;
-    width: auto;
-    left: 0;
-    border-radius: 20px;
-}
-
-.buttonContainers {
-    position: absolute;
-    width: 100vw;
-    bottom: 0;
-    text-align: center;
-}
-
-.buttonContainers svg {
-    font-size: 3rem;
-}
-
-.conferenceView { 
-
-    display: flex;
-    
-    padding: 10px;
-    gap: 10px;
-}
-
-.conferenceView  video {
-    width: 40vw;
-    height: 20vh;
-    min-width: 30vw;
-    border-radius: 10px;
-}
-
+/* -------------------------------
+   Chat Sidebar / Overlay
+   ------------------------------- */
 .chatRoom {
-    position: absolute;
-    height: 90vh;
-    right: 0;
-    background: white;
-    border-radius: 10px;
-    width: 30vw;
-    padding-inline: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  background-color: #121826;
+  border-left: 1px solid #2c2f3f;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 .chatContainer {
-    position: relative;
-    height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
 }
 
+.chattingDisplay {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.chattingDisplay p {
+  margin: 2px 0;
+  line-height: 1.3;
+}
 
 .chattingArea {
-    position: absolute;
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #2c2f3f;
+}
+
+/* -------------------------------
+   Control Buttons
+   ------------------------------- */
+.buttonContainers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  border-top: 1px solid #2c2f3f;
+  backdrop-filter: blur(6px);
+}
+
+.buttonContainers button,
+.buttonContainers svg {
+  transition: transform 0.2s ease;
+}
+
+.buttonContainers button:hover,
+.buttonContainers svg:hover {
+  transform: scale(1.1);
+}
+
+/* -------------------------------
+   Local Preview Video
+   ------------------------------- */
+.meetUserVideo {
+  position: absolute;
+  bottom: 100px;
+  left: 20px;
+  width: 180px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+/* -------------------------------
+   Conference Grid
+   ------------------------------- */
+.conferenceView {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-auto-rows: minmax(200px, auto);
+  gap: 12px;
+  padding: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+.conferenceView video {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  background: black;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.conferenceView video:hover {
+  transform: scale(1.02);
+}
+
+/* Fullscreen effect for first video (screen share style) */
+.conferenceView video:first-child {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  object-fit: contain;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* -------------------------------
+   Responsive Design
+   ------------------------------- */
+@media (max-width: 1024px) {
+  .conferenceView {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .chatRoom {
+    width: 100%;
+    height: 50%;
     bottom: 0;
+    right: 0;
+    top: auto;
+    border-left: none;
+    border-top: 1px solid #2c2f3f;
+  }
+
+  .meetUserVideo {
+    width: 120px;
+    height: 80px;
+    bottom: 100px;
+  }
+
+  .conferenceView {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .buttonContainers {
+    gap: 8px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .meetUserVideo {
+    width: 100px;
+    height: 70px;
+    bottom: 90px;
+    left: 10px;
+  }
 }
