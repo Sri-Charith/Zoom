@@ -17,6 +17,7 @@ const io = connectToSocket(server);
 app.set("PORT", (process.env.PORT || 8000))
 const allowedOrigins = [
   "https://meetly-sricharith.netlify.app",
+  "https://meetly-sricharith.onrender.com",
   "http://localhost:3000"
 ];
 
