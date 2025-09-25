@@ -1,0 +1,121 @@
+/* Dark background & font */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #0f1117;
+  color: #f5f5f5;
+}
+
+/* Navbar */
+.navBar {
+  height: 70px;
+  background-color: #1a1d29;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  border-bottom: 1px solid #2c2f3a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.navBar h2 {
+  color: #60a5fa;
+  margin: 0;
+  font-weight: 600;
+}
+
+.navBar p, .navBar button {
+  color: #d1d5db;
+}
+
+/* Navbar buttons */
+.navBar button {
+  color: #f87171 !important;
+  font-weight: bold;
+  text-transform: none;
+  margin-left: 12px;
+}
+
+/* Main container */
+.meetContainer {
+  display: flex;
+  height: calc(100vh - 70px);
+  padding: 2rem;
+  gap: 2rem;
+}
+
+/* Left panel */
+.leftPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.leftPanel h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #e5e7eb;
+}
+
+.leftPanel .MuiTextField-root {
+  background: #1f2230;
+  border-radius: 8px;
+}
+
+.leftPanel button {
+  background: linear-gradient(90deg, #2563eb, #3b82f6) !important;
+  color: white !important;
+  font-weight: bold !important;
+  padding: 0.6rem 1.5rem !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.leftPanel button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.6);
+}
+
+/* Right panel */
+.rightPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightPanel img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.6));
+}
+
+/* Mobile responsiveness */
+@media (max-width: 900px) {
+  .meetContainer {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .leftPanel, .rightPanel {
+    width: 100%;
+  }
+
+  .leftPanel h2 {
+    font-size: 1.4rem;
+  }
+
+  .leftPanel .MuiTextField-root, .leftPanel button {
+    width: 100%;
+  }
+
+  .rightPanel {
+    margin-top: 1.5rem;
+  }
+}

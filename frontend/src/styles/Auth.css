@@ -1,0 +1,81 @@
+/* ===== Auth.css ===== */
+
+/* Reset and base styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+}
+
+/* Dark mode auto-detect */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f5f5f5;
+  }
+
+  .MuiPaper-root {
+    background-color: #1e1e1e !important;
+    color: #f5f5f5 !important;
+  }
+
+  .MuiInputBase-root {
+    background-color: #2a2a2a !important;
+    color: #f5f5f5 !important;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border-color: #555 !important;
+  }
+
+  .MuiButton-contained {
+    background-color: #2979ff !important;
+    color: #fff !important;
+  }
+
+  .MuiButton-outlined {
+    border-color: #2979ff !important;
+    color: #2979ff !important;
+  }
+}
+
+/* Center the auth box on screen */
+.MuiBox-root {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Make buttons cleaner */
+.MuiButton-root {
+  border-radius: 8px !important;
+  text-transform: none !important;
+}
+
+/* Error message style */
+p[style*="color: red"] {
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .MuiGrid-root {
+    flex-direction: column !important;
+  }
+
+  .MuiGrid-root > .MuiPaper-root {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .MuiBox-root {
+    margin: 0 12px !important;
+    padding: 16px !important;
+  }
+
+  .MuiButton-root {
+    width: 100% !important;
+  }
+}

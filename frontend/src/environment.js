@@ -1,8 +1,9 @@
 let IS_PROD = true;
-const server = 
+const server = "https://sricharith-meetly-backend.onrender.com"
 
-    "http://localhost:8000"
+    
 
 
 export default server;
 
+// "http://localhost:8000"

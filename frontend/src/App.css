@@ -1,3 +1,5 @@
+/* ===== App.css ===== */
+
 .landingPageContainer {
   width: 100vw;
   height: 100vh;
@@ -7,13 +9,13 @@
   color: white;
 }
 
+/* Navbar */
 .landingPageContainer nav {
   padding-inline: 1.2rem;
   padding-block: 1.6rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .landingPageContainer nav h2 {
@@ -25,9 +27,9 @@
   display: flex;
   gap: 1.6rem;
   cursor: pointer;
-
 }
 
+/* Main landing section */
 .landingMainContainer {
   display: flex;
   justify-content: space-between;
@@ -36,11 +38,11 @@
   align-items: center;
 }
 
-.landingMainContainer>div:nth-child(1) {
+.landingMainContainer > div:nth-child(1) {
   font-size: 2.2rem;
 }
 
-.landingMainContainer>div:nth-child(1) div[role='button'] {
+.landingMainContainer > div:nth-child(1) div[role='button'] {
   background: #D97500;
   width: fit-content;
   padding: 1rem;
@@ -48,25 +50,27 @@
   margin-top: 1.9rem;
 }
 
-.landingMainContainer>div:nth-child(1) div[role='button'] a {
+.landingMainContainer > div:nth-child(1) div[role='button'] a {
   text-decoration: none;
   color: white;
   font-size: 1.7rem;
 }
 
-.landingMainContainer>div:nth-child(2) img {
+.landingMainContainer > div:nth-child(2) img {
   height: 70vh;
   width: auto;
 }
 
+/* Nav bar (generic) */
 .navBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-inline: 20px;
   text-align: center;
-
 }
+
+/* Meet container */
 .meetContainer {
   display: flex;
   padding-inline: 20px;
@@ -75,13 +79,10 @@
   justify-content: center;
 }
 
-
-
 .leftPanel {
   height: 100%;
   display: flex;
   align-items: center;
-
 }
 
 .rightPanel {
@@ -93,4 +94,92 @@
   width: 30vw;
   height: auto;
   border-radius: 20px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1024px) {
+  .landingMainContainer {
+    padding-inline: 1.5rem;
+    gap: 2rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) {
+    font-size: 1.6rem;
+  }
+
+  .landingMainContainer > div:nth-child(2) img {
+    height: 50vh;
+  }
+
+  .meetContainer {
+    gap: 5vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .landingPageContainer nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .landingPageContainer nav .navlist {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .landingMainContainer {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    height: auto;
+    padding: 2rem 1rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) {
+    font-size: 1.4rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) div[role='button'] {
+    margin: 1.2rem auto 0;
+  }
+
+  .landingMainContainer > div:nth-child(2) img {
+    height: 40vh;
+    margin-top: 1.5rem;
+  }
+
+  .meetContainer {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+
+  .rightPanel > img {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .landingPageContainer nav h2 {
+    font-size: 1.4rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) {
+    font-size: 1.2rem;
+  }
+
+  .landingMainContainer > div:nth-child(1) div[role='button'] a {
+    font-size: 1.2rem;
+  }
+
+  .landingMainContainer > div:nth-child(2) img {
+    height: 30vh;
+  }
+
+  .rightPanel > img {
+    width: 90vw;
+  }
 }

@@ -1,0 +1,75 @@
+/* Dark background */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #0f1117;
+  color: #f5f5f5;
+}
+
+.historyContainer {
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #0f1117;
+}
+
+/* Home button */
+.MuiIconButton-root {
+  background-color: #1f2230 !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+  margin-bottom: 1.5rem !important;
+  transition: all 0.3s ease !important;
+  color: #f5f5f5 !important;
+}
+
+.MuiIconButton-root:hover {
+  background-color: #2563eb !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Cards */
+.MuiCard-root {
+  background-color: #1f2230 !important;
+  border: 1px solid #2c2f3a !important;
+  border-radius: 14px !important;
+  margin-bottom: 1rem !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6) !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-4px);
+  border-color: #3b82f6 !important;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Typography inside card */
+.MuiTypography-root {
+  color: #d1d5db !important;
+}
+
+.MuiTypography-root:first-child {
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  color: #93c5fd !important;
+}
+
+.MuiTypography-root:nth-child(2) {
+  font-size: 0.9rem !important;
+  color: #9ca3af !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .MuiCard-root {
+    font-size: 0.9rem;
+    padding: 1rem !important;
+  }
+
+  .MuiIconButton-root {
+    padding: 8px !important;
+    margin-bottom: 1rem !important;
+  }
+}

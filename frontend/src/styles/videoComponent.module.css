@@ -1,191 +1,343 @@
-/* ===============================
-   Zoom-like Video Meeting Styles
-   =============================== */
+/* Meeting.module.css
+   Drop-in replacement. No React changes required.
+*/
 
-/* Main container */
-.meetVideoContainer {
+/* Theme vars */
+:root{
+  --bg: #060814;
+  --panel: #0f1722;
+  --muted-border: #2c2f3f;
+  --glass: rgba(255,255,255,0.03);
+  --accent-grad: linear-gradient(135deg,#6b5cff 0%,#3dd5f3 100%);
+  --text: #e7eef8;
+  --sub: #aab6cc;
+  --control-h: 72px;
+  --chat-width: 340px;
+}
+
+/* ---------- Layout ---------- */
+.meetVideoContainer{
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #0a0f1c; /* Dark mode */
-  color: white;
+  width: 100%;
+  background:
+    radial-gradient(900px 400px at 10% 8%, rgba(61,213,243,0.03), transparent),
+    linear-gradient(180deg,var(--bg) 0%, #03040a 100%);
+  color: var(--text);
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
   overflow: hidden;
-  position: relative;
-  font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* -------------------------------
-   Chat Sidebar / Overlay
-   ------------------------------- */
-.chatRoom {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 320px;
-  height: 100%;
-  background-color: #121826;
-  border-left: 1px solid #2c2f3f;
-  display: flex;
-  flex-direction: column;
-  z-index: 20;
-  animation: slideIn 0.3s ease-in-out;
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-.chatContainer {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-}
-
-.chattingDisplay {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 12px;
-}
-
-.chattingDisplay p {
-  margin: 2px 0;
-  line-height: 1.3;
-}
-
-.chattingArea {
-  display: flex;
-  gap: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #2c2f3f;
-}
-
-/* -------------------------------
-   Control Buttons
-   ------------------------------- */
-.buttonContainers {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 15;
-  border-top: 1px solid #2c2f3f;
-  backdrop-filter: blur(6px);
-}
-
-.buttonContainers button,
-.buttonContainers svg {
-  transition: transform 0.2s ease;
-}
-
-.buttonContainers button:hover,
-.buttonContainers svg:hover {
-  transform: scale(1.1);
-}
-
-/* -------------------------------
-   Local Preview Video
-   ------------------------------- */
-.meetUserVideo {
-  position: absolute;
-  bottom: 100px;
-  left: 20px;
-  width: 180px;
-  height: 120px;
-  border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
-  z-index: 10;
-  transition: all 0.3s ease;
-}
-
-/* -------------------------------
-   Conference Grid
-   ------------------------------- */
-.conferenceView {
+/* conference grid with bottom padding so control bar doesn't overlay tiles */
+.conferenceView{
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
   grid-auto-rows: minmax(200px, auto);
   gap: 12px;
-  padding: 12px;
-  transition: all 0.3s ease-in-out;
+  padding: 16px;
+  padding-bottom: calc(var(--control-h) + 28px);
+  transition: padding-right 300ms ease, all 240ms ease-in-out;
 }
 
-.conferenceView video {
+/* When chat is open on desktop, make room on the right so tiles are not hidden.
+   Selector relies on chatRoom being a sibling before conferenceView (matches your JSX order). */
+.chatRoom.active ~ .conferenceView{
+  padding-right: calc(16px + var(--chat-width));
+}
+
+/* video tiles */
+.conferenceView video{
   width: 100%;
   height: 100%;
   border-radius: 12px;
   object-fit: cover;
-  background: black;
-  box-shadow: 0 0 10px rgba(0,0,0,0.6);
-  transition: transform 0.3s ease-in-out;
+  background: #000;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.6);
+  transition: transform 260ms ease, box-shadow 260ms ease;
 }
+.conferenceView video:hover{ transform: scale(1.02); }
 
-/* Hover effect */
-.conferenceView video:hover {
-  transform: scale(1.02);
-}
-
-/* Fullscreen effect for first video (screen share style) */
-.conferenceView video:first-child {
+/* Emphasize first (screen share style) */
+.conferenceView video:first-child{
   grid-column: 1 / -1;
-  grid-row: 1 / -1;
+  grid-row: 1 / 1;
   object-fit: contain;
-  border-radius: 0;
+  border-radius: 8px;
   box-shadow: none;
 }
 
-/* -------------------------------
-   Responsive Design
-   ------------------------------- */
-@media (max-width: 1024px) {
-  .conferenceView {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
+/* ---------- Local preview ---------- */
+.meetUserVideo{
+  position: absolute;
+  left: 20px;
+  bottom: calc(var(--control-h) + 12px);
+  width: 180px;
+  height: 120px;
+  border-radius: 10px;
+  object-fit: cover;
+  z-index: 25;
+  box-shadow: 0 8px 28px rgba(2,6,23,0.7);
+  transition: transform 220ms ease, opacity 220ms ease;
 }
 
-@media (max-width: 768px) {
-  .chatRoom {
+/* ---------- Chat panel ---------- */
+/* Hidden by default (off-screen) and not interactive; .active toggles visible. */
+.chatRoom{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--chat-width);
+  height: 100%;
+  max-width: 92vw;
+  background: linear-gradient(180deg, rgba(14,18,28,0.98), rgba(16,20,30,0.98));
+  border-left: 1px solid var(--muted-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+  pointer-events: none;
+  transform: translateX(110%);
+  opacity: 0;
+  transition: transform 340ms cubic-bezier(.2,.9,.28,1), opacity 220ms ease;
+  box-shadow: -10px 0 40px rgba(0,0,0,0.65);
+}
+
+/* visible state */
+.chatRoom.active{
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Chat inner container */
+.chatContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* header */
+.chatContainer > h1{
+  margin: 0;
+  font-size: 18px;
+  color: var(--text);
+}
+
+/* messages area: flex-grow and scroll independently so input stays fixed */
+.chattingDisplay{
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding-right: 6px; /* room for scrollbar */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* message items */
+.chattingDisplay > div{
+  word-break: break-word;
+  line-height: 1.35;
+  color: var(--sub);
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+  padding: 8px 10px;
+  border-radius: 8px;
+  max-width: 86%;
+}
+
+/* sender line (keeps bold and visible) */
+.chattingDisplay > div p:first-child,
+.chattingDisplay p strong{
+  color: var(--text);
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+/* Input area — fixed visually at bottom (because messages flex), with glass effect */
+.chattingArea{
+  flex: 0 0 auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  border-top: 1px solid var(--muted-border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  backdrop-filter: blur(4px);
+}
+
+/* Make contained TextField / inputs expand */
+.chattingArea .MuiTextField-root,
+.chattingArea input,
+.chattingArea textarea,
+.chattingArea .MuiInputBase-root{
+  width: 100%;
+}
+
+/* Nice small scrollbar */
+.chattingDisplay::-webkit-scrollbar{ width: 8px; }
+.chattingDisplay::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.04); border-radius: 8px; }
+.chattingDisplay::-webkit-scrollbar-track{ background: transparent; }
+
+/* ---------- Controls (bottom) ---------- */
+.buttonContainers{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 35;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: rgba(4,6,12,0.62);
+  border-top: 1px solid var(--muted-border);
+  backdrop-filter: blur(6px);
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+
+/* button hover/press micro animations */
+.buttonContainers > *{ transition: transform 160ms ease, box-shadow 160ms ease; }
+.buttonContainers > *:hover{ transform: translateY(-3px) scale(1.03); }
+
+/* ---------- Mobile / Responsive ---------- */
+@media (max-width: 1024px){
+  .conferenceView{ grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
+}
+
+@media (max-width: 768px){
+  /* Chat becomes bottom sheet on mobile: use translateY states */
+  .chatRoom{
     width: 100%;
-    height: 50%;
-    bottom: 0;
+    left: 0;
     right: 0;
     top: auto;
+    bottom: 0;
+    height: 52%;
+    max-height: 72vh;
     border-left: none;
-    border-top: 1px solid #2c2f3f;
+    border-top: 1px solid var(--muted-border);
+    transform: translateY(110%); /* closed */
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 12px 12px 0 0;
+  }
+  .chatRoom.active{
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  .meetUserVideo {
+  /* Center and float the controls as a pill */
+  .buttonContainers{
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 720px;
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 999px;
+    box-shadow: 0 14px 40px rgba(2,6,23,0.6);
+  }
+
+  /* smaller preview */
+  .meetUserVideo{
+    left: 12px;
+    bottom: calc(var(--control-h) + 8px);
     width: 120px;
     height: 80px;
-    bottom: 100px;
   }
 
-  .conferenceView {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  /* keep conference spacing snappy on mobile */
+  .conferenceView{
     gap: 8px;
-    padding: 8px;
-  }
-
-  .buttonContainers {
-    gap: 8px;
-    padding: 8px;
+    padding: 12px;
+    padding-bottom: calc(var(--control-h) + 28px);
   }
 }
 
-@media (max-width: 480px) {
-  .meetUserVideo {
-    width: 100px;
-    height: 70px;
-    bottom: 90px;
-    left: 10px;
+@media (max-width: 480px){
+  .meetUserVideo{ width: 100px; height: 70px; left: 8px; bottom: calc(var(--control-h) + 6px); }
+  .buttonContainers{ gap: 6px; padding: 8px 10px; }
+  .conferenceView{ gap: 6px; padding: 10px; }
+}
+
+/* Accessibility focus */
+.buttonContainers :focus,
+.chattingArea :focus,
+.chatRoom :focus{
+  outline: 3px solid rgba(99,102,241,0.10);
+  outline-offset: 2px;
+}
+
+/* MUI Badge helper override (if you need to tweak) */
+.badgeOverride{
+  background: #ff8a00 !important;
+  color: #08101b !important;
+  font-weight: 700;
+  font-size: 11px;
+}
+/* Mobile-only: move control icons to the top while keeping desktop unchanged */
+@media (max-width: 768px) {
+  /* Float and center the control icons at the top as a pill */
+  .buttonContainers {
+    position: fixed;
+    top: 14px;               /* moved to top */
+    bottom: auto;            /* remove bottom positioning */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 36px);
+    max-width: 720px;
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 999px;
+    box-shadow: 0 14px 40px rgba(2,6,23,0.6);
+    z-index: 60;             /* place above most content */
+    backdrop-filter: blur(6px);
+    transition: transform 240ms ease, top 240ms ease, opacity 200ms ease;
   }
+
+  /* Slightly reduce the size of icons if desired (keeps layout compact) */
+  .buttonContainers > * {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 6px;
+  }
+
+  /* Move the small local preview below the top controls so they don't overlap */
+  .meetUserVideo {
+    top: calc(14px + var(--control-h)); /* sits just below the new top control pill */
+    bottom: auto;
+    left: 12px;
+    width: 120px;
+    height: 80px;
+    z-index: 55;
+    transition: top 220ms ease, transform 220ms ease;
+  }
+
+  /* Chat stays as bottom sheet (no JS changes). ensure it remains above the conference,
+     but below the top control bar visually when open (so it doesn't unexpectedly cover controls). */
+  .chatRoom {
+    z-index: 50;
+  }
+  .chatRoom.active {
+    z-index: 54; /* slightly above local preview, below top controls */
+  }
+
+  /* Conference padding to avoid items under the top pill */
+  .conferenceView {
+    padding-top: calc(var(--control-h) + 22px);
+    padding-bottom: calc(var(--control-h) + 28px); /* keep bottom space for bottom sheet when open */
+  }
+
+  /* If you have avatar/other fixed elements at top-left/right, nudge them down on small screens */
+  /* Example: .some-top-badge { top: calc(14px + var(--control-h)); } */
 }
